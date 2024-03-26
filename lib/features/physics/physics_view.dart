@@ -12,7 +12,7 @@ class _PhysicsViewState extends ConsumerState<PhysicsView> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text('naber'),
+      body: Center(child: Text('jj')),
     );
   }
 }

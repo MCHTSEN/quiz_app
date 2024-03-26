@@ -16,6 +16,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> with HomeViewModel {
+  final String welcomeTitle = 'Hoşgeldin!\nDers çalışmaya hemen başla.';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +30,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HomeViewModel {
           children: [
             Gap(1.h),
             Text(
-              'Hoşgeldin!\nDers çalışmaya hemen başla.',
+              welcomeTitle,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             Gap(1.h),
@@ -109,6 +110,7 @@ class _HomeViewState extends ConsumerState<HomeView> with HomeViewModel {
         },
         items: const [
           BottomNavigationBarItem(
+            
               icon: Icon(Icons.add_task_rounded), label: 'Sinavlar'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),

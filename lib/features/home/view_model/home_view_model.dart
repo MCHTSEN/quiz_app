@@ -21,7 +21,7 @@ mixin HomeViewModel {
     ),
   ];
 
-  void navigate(BuildContext context,int index) {
+  void navigate(BuildContext context, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
