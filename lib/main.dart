@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:quiz_app/features/add_lessons/add_exam/add_exam_view.dart';
+import 'package:quiz_app/features/add_lessons/add_lessons_view.dart';
 import 'package:quiz_app/features/home/view/home_view.dart';
 import 'package:quiz_app/features/home_tutor/home_tutor_view.dart';
 import 'package:quiz_app/features/physics/physics_view.dart';
@@ -27,7 +29,7 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
             theme: quizTheme,
             debugShowCheckedModeBanner: false,
-            home: const PhysicsView());
+            home: const AddLessonsView());
       },
     );
   }

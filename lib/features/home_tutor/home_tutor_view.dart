@@ -38,6 +38,7 @@ class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+                          settings: RouteSettings(),
                           builder: (context) => const AddLessonsView(),
                         ));
                   },
