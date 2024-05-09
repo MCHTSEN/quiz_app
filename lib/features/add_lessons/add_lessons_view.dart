@@ -1,12 +1,18 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kartal/kartal.dart';
-import 'package:quiz_app/features/add_lessons/add_exam_sheet.dart';
 import 'package:quiz_app/features/add_lessons/add_exam/add_exam_view.dart';
 import 'package:quiz_app/features/add_lessons/add_lessons_viewmodel.dart';
+import 'package:quiz_app/provs/exam_provider.dart';
+import 'package:quiz_app/services/firestore_service.dart';
 import 'package:quiz_app/utils/enums/custom_borders.dart';
+import 'package:quiz_app/utils/models/exam_model.dart';
+import 'package:quiz_app/utils/models/question_model.dart';
 import 'package:quiz_app/utils/validators/quiz_validators.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -27,7 +33,6 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
   final TextEditingController _videoURLController = TextEditingController();
   final TextEditingController _lessonDescriptionController =
       TextEditingController();
-
   @override
   void dispose() {
     _videoURLController.dispose();
@@ -43,6 +48,7 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
 
   @override
   Widget build(BuildContext context) {
+    final isExamAdded = ref.watch(isExamAddedProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -72,9 +78,10 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
                   Gap(2.h),
                   _enterDescription(),
                   Gap(3.h),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () {
                       showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (context) {
                           return SizedBox(
@@ -85,23 +92,41 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
                       textStyle: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: const Text('Sinav Ekle'),
+                    icon: isExamAdded
+                        ? const Icon(Icons.check)
+                        : const SizedBox.shrink(),
+                    label: isExamAdded
+                        ? const Text('Sınav Eklendi')
+                        : const Text('Sınav Ekle'),
                   ),
                   Gap(3.h),
                   ElevatedButton.icon(
-                    onPressed:  () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Form Gönderildi')),
-                        );
-                      }
-                    },
+                    onPressed: isExamAdded
+                        ? () async {
+                            if (_formKey.currentState!.validate()) {
+                              final List<QuestionModel> questionList =
+                                  ref.read(examListProvider.notifier).state;
+
+                              inspect(questionList);
+
+                              final ExamModel examModel = ExamModel(
+                                  lessonName: _selectedOption,
+                                  subtitle: _selectedSubtitle,
+                                  description:
+                                      _lessonDescriptionController.text,
+                                  videoURL: _videoURLController.text,
+                                  questionModel: questionList);
+
+                              await FirestoneService.instance
+                                  .uploadExam(examModel);
+                            }
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       textStyle: const TextStyle(
                         fontSize: 16.0,

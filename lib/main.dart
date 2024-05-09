@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz_app/features/add_lessons/add_exam/add_exam_view.dart';
 import 'package:quiz_app/features/add_lessons/add_lessons_view.dart';
+import 'package:quiz_app/features/authentication/authentication_view.dart';
 import 'package:quiz_app/features/home/view/home_view.dart';
 import 'package:quiz_app/features/home_tutor/home_tutor_view.dart';
 import 'package:quiz_app/features/physics/physics_view.dart';
@@ -16,7 +19,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MainApp());
+   FirebaseUIAuth.configureProviders([
+    EmailAuthProvider(),
+    
+  ]);
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -29,7 +36,7 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
             theme: quizTheme,
             debugShowCheckedModeBanner: false,
-            home: const AddLessonsView());
+            home: const AuthenticationView());
       },
     );
   }

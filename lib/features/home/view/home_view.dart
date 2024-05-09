@@ -43,37 +43,9 @@ class _HomeViewState extends ConsumerState<HomeView> with HomeViewModel {
                   return GestureDetector(
                     onTap: () {
                       navigate(context, index);
+                      
                     },
-                    child: Container(
-                      height: 20.h,
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: context.border.normalBorderRadius,
-                        border: Border.all(
-                          color: QuizColorScheme.fourthColor,
-                          width: 0.5,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Image.asset(
-                            listItems[index].path,
-                            height: 15.h,
-                          ),
-                          Text(
-                            listItems[index].title,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const Icon(Icons.chevron_right)
-                        ],
-                      ),
-                    ),
+                    child: _cards(context, index),
                   );
                 },
               ),
@@ -82,6 +54,39 @@ class _HomeViewState extends ConsumerState<HomeView> with HomeViewModel {
         ),
       ),
     );
+  }
+
+  Container _cards(BuildContext context, int index) {
+    return Container(
+                    height: 20.h,
+                    margin: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: context.border.normalBorderRadius,
+                      border: Border.all(
+                        color: QuizColorScheme.fourthColor,
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          listItems[index].path,
+                          height: 15.h,
+                        ),
+                        Text(
+                          listItems[index].title,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const Icon(Icons.chevron_right)
+                      ],
+                    ),
+                  );
   }
 
   AppBar _appbar(BuildContext context) {

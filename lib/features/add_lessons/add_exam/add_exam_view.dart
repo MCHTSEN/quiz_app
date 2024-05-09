@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kartal/kartal.dart';
 import 'package:quiz_app/features/add_lessons/add_exam/add_exam_viewmodel.dart';
+import 'package:quiz_app/provs/exam_provider.dart';
 import 'package:quiz_app/utils/validators/quiz_validators.dart';
 import 'package:quiz_app/utils/widgets/answer_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -37,7 +40,18 @@ class _AddExamViewState extends ConsumerState<AddExamView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // gap(),
-                _questionNumber(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _questionNumber(context),
+                    IconButton(
+                        onPressed: () {
+                          ref.read(isExamAddedProvider.notifier).setState(false);
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.close))
+                  ],
+                ),
                 halfGap(),
                 TextFormField(
                   validator: QuizValidators().cannotNull,
@@ -72,6 +86,18 @@ class _AddExamViewState extends ConsumerState<AddExamView> {
                 ),
                 halfGap(),
                 _selectAnswer(context),
+                halfGap(),
+                TextFormField(
+                  controller: _viewModel.passGradeController,
+                  validator: QuizValidators().cannotNull,
+                  decoration: const InputDecoration(
+                    suffix: Text(
+                      '/100',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    label: Text('Geçme Notu Giriniz'),
+                  ),
+                ),
                 Column(
                   children: [
                     Row(mainAxisSize: MainAxisSize.max, children: [
@@ -90,11 +116,14 @@ class _AddExamViewState extends ConsumerState<AddExamView> {
                             icon: const Icon(Icons.arrow_forward),
                             label: const Text('Sonraki Soru')),
                     ]),
-                    if (_viewModel.currentQuestion == _viewModel.amountOfQuestion)
+                    if (_viewModel.currentQuestion ==
+                        _viewModel.amountOfQuestion)
                       Align(
                           alignment: Alignment.center,
                           child: ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                _viewModel.onPressedSave(ref, context);
+                              },
                               icon: const Icon(Icons.save),
                               label: const Text('Kaydet'))),
                   ],
@@ -132,7 +161,6 @@ class _AddExamViewState extends ConsumerState<AddExamView> {
             onChanged: (String? newValue) {
               setState(() {
                 _viewModel.selectedOption = newValue;
-                print(_viewModel.selectedOption);
               });
             },
             items: ['A', 'B', 'C', 'D']
