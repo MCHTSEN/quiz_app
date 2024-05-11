@@ -1,26 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quiz_app/utils/models/question_model.dart';
 
-class ExamModel {
+class LessonModel {
   String? lessonName;
   String? subtitle;
   String? videoURL;
   String? description;
   List<QuestionModel>? questionModel;
 
-  ExamModel({
+  LessonModel({
     this.lessonName,
     this.subtitle,
     this.videoURL,
     this.description,
     this.questionModel,
   });
-  // factory ExamModel.fromFirestore(
+  // factory LessonModel.fromFirestore(
   //   DocumentSnapshot<Map<String, dynamic>> snapshot,
   //   SnapshotOptions? options,
   // ) {
   //   final data = snapshot.data();
-  //   return ExamModel(
+  //   return LessonModel(
   //     lessonName: data?['lessonName'],
   //     subtitle: data?['subtitle'],
   //     videoURL: data?['videoURL'],
@@ -41,14 +41,14 @@ class ExamModel {
   //   };
   // }
 
-  ExamModel copyWith({
+  LessonModel copyWith({
     String? lessonName,
     String? subtitle,
     String? videoURL,
     String? description,
     List<QuestionModel>? questionModel,
   }) {
-    return ExamModel(
+    return LessonModel(
       lessonName: lessonName ?? this.lessonName,
       subtitle: subtitle ?? this.subtitle,
       videoURL: videoURL ?? this.videoURL,
@@ -68,8 +68,8 @@ class ExamModel {
     };
   }
 
-  factory ExamModel.fromJson(Map<String, dynamic> json) {
-    return ExamModel(
+  factory LessonModel.fromJson(Map<String, dynamic> json) {
+    return LessonModel(
       lessonName: json['lessonName'] as String?,
       subtitle: json['subtitle'] as String?,
       videoURL: json['videoURL'] as String?,
@@ -82,7 +82,7 @@ class ExamModel {
 
   @override
   String toString() =>
-      "ExamModel(lessonName: $lessonName,subtitle: $subtitle,videoURL: $videoURL,description: $description,questionModel: $questionModel)";
+      "LessonModel(lessonName: $lessonName,subtitle: $subtitle,videoURL: $videoURL,description: $description,questionModel: $questionModel)";
 
   @override
   int get hashCode =>
@@ -91,7 +91,7 @@ class ExamModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExamModel &&
+      other is LessonModel &&
           runtimeType == other.runtimeType &&
           lessonName == other.lessonName &&
           subtitle == other.subtitle &&

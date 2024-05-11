@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quiz_app/utils/models/exam_model.dart';
 import 'package:quiz_app/utils/models/question_model.dart';
 
 final isExamAddedProvider =
@@ -25,5 +26,17 @@ class ExamListNotifier extends StateNotifier<List<QuestionModel>> {
 
   void saveList(List<QuestionModel> list) {
     state = list;
+  }
+}
+
+final currentLessonNotifier =
+    StateNotifierProvider<CurrentLessonNotifier, LessonModel>(
+        (_) => CurrentLessonNotifier());
+
+class CurrentLessonNotifier extends StateNotifier<LessonModel> {
+  CurrentLessonNotifier() : super(LessonModel());
+
+  void setLesson(LessonModel lesson) {
+    state = lesson;
   }
 }

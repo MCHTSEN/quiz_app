@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class CustomListTile extends StatelessWidget {
   final String? title;
   final VoidCallback? onTap;
+  final int index;
+  final int canTakeLessonIndex;
 
   const CustomListTile({
     super.key,
     required this.title,
     required this.onTap,
+    required this.index,
+    required this.canTakeLessonIndex,
   });
 
   @override
@@ -15,11 +19,13 @@ class CustomListTile extends StatelessWidget {
     return title == null
         ? const SizedBox.shrink()
         : InkWell(
-            onTap: onTap,
+            onTap: index <= canTakeLessonIndex ? onTap : null,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
-                color: onTap == null ? Colors.grey[200] : Colors.white,
+                color: index <= canTakeLessonIndex
+                    ? Colors.white
+                    : Colors.grey[200],
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(

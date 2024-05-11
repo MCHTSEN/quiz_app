@@ -16,10 +16,10 @@ class AddExamViewModel extends ChangeNotifier {
   String? selectedOption;
   int currentQuestion = 0;
   
-  final int amountOfQuestion = 2;
+  final int amountOfQuestion = 9;
 
   List<QuestionModel> questionModels =
-      List<QuestionModel>.filled(3, QuestionModel());
+      List<QuestionModel>.filled(10, QuestionModel());
 
   bool isAllCheck = false;
 

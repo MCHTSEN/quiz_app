@@ -46,7 +46,7 @@ class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
               alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
                   onPressed: () async {
-                    await FirestoneService.instance
+                    await FirestoreService.instance
                         .getExams(LessonNames.Matematik);
                   },
                   icon: const Icon(Icons.add),
@@ -56,7 +56,7 @@ class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
               alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
                   onPressed: () async {
-                    await FirestoneService.instance.uploadExam(ExamModel(
+                    await FirestoreService.instance.uploadExam(LessonModel(
                         lessonName: 'fizik',
                         subtitle: 'isik',
                         description: 'descriptionn',
