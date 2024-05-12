@@ -39,14 +39,6 @@ class _LessonViewState extends ConsumerState<LessonView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                // We can use this for fast upload
-                FirestoreService.instance.uploadExam(_viewmodel.lesson1);
-              },
-              icon: const Icon(Icons.add))
-        ],
         title: const Text('Konu Başlıkları'),
       ),
       body: Padding(

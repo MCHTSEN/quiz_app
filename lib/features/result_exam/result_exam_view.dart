@@ -57,7 +57,7 @@ class _ResultExamViewState extends ConsumerState<ResultExamView> {
           ElevatedButton(
               onPressed: () {
                 ref.read(selectedAnswersProvider.notifier).setEmpty();
-                FirestoreService.instance.saveExamResult(
+                FirestoneService.instance.saveExamResult(
                     ref,
                     ExamResultModel(
                         score: widget.score,

@@ -8,9 +8,9 @@ import 'package:quiz_app/utils/enums/lesson_names.dart';
 import 'package:quiz_app/utils/models/exam_model.dart';
 import 'package:quiz_app/utils/models/exam_result_model.dart';
 
-final class FirestoreService {
-  FirestoreService._();
-  static FirestoreService get instance => FirestoreService._();
+final class FirestoneService {
+  FirestoneService._();
+  static FirestoneService get instance => FirestoneService._();
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final userUID = FirebaseAuth.instance.currentUser?.uid ?? 'Diger';
@@ -65,5 +65,20 @@ final class FirestoreService {
         .doc(currentLesson.subtitle ?? 'Diger')
         .set(examResultModel.toJson())
         .onError((e, _) => print("Error writing document: $e"));
+  }
+
+  Future<void> deleteExamTopic(String lessonName, String topicTitle) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('exams')
+          .doc('exam')
+          .collection(lessonName)
+          .doc(topicTitle)
+          .delete();
+      print('Konu başlığı silindi: $topicTitle');
+    } catch (e) {
+      print('Konu başlığı silinirken hata oluştu: $e');
+      rethrow; // Hata yeniden fırlatılıyor
+    }
   }
 }

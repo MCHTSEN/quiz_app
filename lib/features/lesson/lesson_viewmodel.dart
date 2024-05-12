@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz_app/features/take_lesson/take_lesson_view.dart';
@@ -16,13 +17,13 @@ class LessonViewModel {
   late List<ExamResultModel>? examResults;
 
   Future<List<LessonModel>> getLessons(LessonNames lessonName) async {
-    final response = await FirestoreService.instance.getExams(lessonName);
+    final response = await FirestoneService.instance.getExams(lessonName);
     await canTakeLesson(lessonName);
     return response;
   }
 
   Future<void> canTakeLesson(LessonNames lessonName) async {
-    examResults = await FirestoreService.instance.getExamResults(lessonName);
+    examResults = await FirestoneService.instance.getExamResults(lessonName);
     for (var result in examResults!) {
       if (result.isPassed) {
         canTakeLessonIndex++;
@@ -44,8 +45,8 @@ class LessonViewModel {
   }
 
   LessonModel lesson1 = LessonModel(
-    lessonName: 'Matematik',
-    subtitle: '3-Zag',
+    lessonName: LessonNames.Matematik.name,
+    subtitle: '5-Zosa',
     videoURL:
         'https://www.youtube.com/watch?v=Jja7555eRFo&list=WL&index=1&t=15s',
     description: 'Matematikte kesirlerin temel kavramlarını içeren bir ders.',

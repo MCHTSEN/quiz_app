@@ -10,6 +10,7 @@ import 'package:quiz_app/features/add_lessons/add_exam/add_exam_view.dart';
 import 'package:quiz_app/features/add_lessons/add_lessons_viewmodel.dart';
 import 'package:quiz_app/features/home/view/home_view.dart';
 import 'package:quiz_app/features/home_tutor/home_tutor_view.dart';
+import 'package:quiz_app/features/lesson/lesson_viewmodel.dart';
 import 'package:quiz_app/provs/exam_provider.dart';
 import 'package:quiz_app/services/firestore_service.dart';
 import 'package:quiz_app/utils/enums/custom_borders.dart';
@@ -27,6 +28,8 @@ class AddLessonsView extends ConsumerStatefulWidget {
 
 class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
   final AddLessonsViewModel _viewModel = AddLessonsViewModel();
+  final LessonViewModel _viewmodelAddLeson = LessonViewModel();
+
   final _formKey = GlobalKey<FormState>();
   List<String>? currentKonuBasliklari;
 
@@ -53,6 +56,15 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
     final isExamAdded = ref.watch(isExamAddedProvider);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                // We can use this for fast upload
+                FirestoneService.instance
+                    .uploadExam(_viewmodelAddLeson.lesson1);
+              },
+              icon: const Icon(Icons.add))
+        ],
         title: const Text(
           'Ders Ekle',
           style: TextStyle(fontSize: 20),
@@ -124,7 +136,7 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
                                   videoURL: _videoURLController.text,
                                   questionModel: questionList);
 
-                              await FirestoreService.instance
+                              await FirestoneService.instance
                                   .uploadExam(examModel);
 
                               showDialog(

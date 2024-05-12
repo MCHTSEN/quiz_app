@@ -171,6 +171,6 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
 
   Future<void> exams() async {
     final matExams =
-        await FirestoreService.instance.getExamResults(LessonNames.Matematik);
+        await FirestoneService.instance.getExamResults(LessonNames.Matematik);
   }
 }
