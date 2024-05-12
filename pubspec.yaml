@@ -20,6 +20,7 @@ dependencies:
   gap: ^3.0.1
   google_fonts: 6.1.0
   kartal: ^3.5.0
+  mockito: ^5.4.4
   responsive_sizer: ^3.3.0+1
   riverpod: ^2.5.1
   rxdart: ^0.27.7

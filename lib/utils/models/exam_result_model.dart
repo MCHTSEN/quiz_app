@@ -33,7 +33,9 @@ class ExamResultModel {
     return ExamResultModel(
       score: json['score'] as int,
       isPassed: json['isPassed'] as bool,
-      answers: (json['answers'] as List<String>? ?? []).map((e) => e).toList(),
+      answers: (json['answers'] as List<dynamic>? ?? [])
+          .map((e) => e.toString())
+          .toList(),
     );
   }
 

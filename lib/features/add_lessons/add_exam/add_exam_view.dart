@@ -46,10 +46,12 @@ class _AddExamViewState extends ConsumerState<AddExamView> {
                     _questionNumber(context),
                     IconButton(
                         onPressed: () {
-                          ref.read(isExamAddedProvider.notifier).setState(false);
+                          ref
+                              .read(isExamAddedProvider.notifier)
+                              .setState(false);
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.close))
+                        icon: const Icon(Icons.close))
                   ],
                 ),
                 halfGap(),
@@ -87,17 +89,18 @@ class _AddExamViewState extends ConsumerState<AddExamView> {
                 halfGap(),
                 _selectAnswer(context),
                 halfGap(),
-                TextFormField(
-                  controller: _viewModel.passGradeController,
-                  validator: QuizValidators().cannotNull,
-                  decoration: const InputDecoration(
-                    suffix: Text(
-                      '/100',
-                      style: TextStyle(fontSize: 20),
+                if (_viewModel.currentQuestion == 0)
+                  TextFormField(
+                    controller: _viewModel.passGradeController,
+                    validator: QuizValidators().cannotNull,
+                    decoration: const InputDecoration(
+                      suffix: Text(
+                        '/100',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      label: Text('Geçme Notu Giriniz'),
                     ),
-                    label: Text('Geçme Notu Giriniz'),
                   ),
-                ),
                 Column(
                   children: [
                     Row(mainAxisSize: MainAxisSize.max, children: [

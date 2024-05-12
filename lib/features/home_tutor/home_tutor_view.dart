@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kartal/kartal.dart';
 import 'package:quiz_app/features/add_lessons/add_lessons_view.dart';
+import 'package:quiz_app/features/authentication/authentication_view.dart';
 import 'package:quiz_app/features/home/view_model/home_view_model.dart';
+import 'package:quiz_app/features/profile/profile_view.dart';
 import 'package:quiz_app/utils/enums/assets_enums.dart';
 import 'package:quiz_app/utils/enums/lesson_names.dart';
 import 'package:quiz_app/utils/models/exam_model.dart';
@@ -20,10 +22,21 @@ class HomeTutorView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
+class _HomeViewState extends ConsumerState<HomeTutorView>
+    with HomeViewModel, SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+
     print(FirebaseAuth.instance.currentUser?.uid ?? 'null');
   }
 
@@ -34,54 +47,52 @@ class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
 
     return Scaffold(
       appBar: _appbar(context),
-      bottomNavigationBar: _bottomNavigationBar(),
-      body: Padding(
-        padding: EdgeInsets.all(4.w),
-        child: Column(
-          children: [
-            _lastLessons(lastLessons, context),
-            _lastExams(lastExams, context),
-            const Spacer(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton.icon(
-                  onPressed: () async {
-                    await FirestoreService.instance
-                        .getExams(LessonNames.Matematik);
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Sinav Getir')),
+      // bottomNavigationBar: _bottomNavigationBar(),
+      bottomNavigationBar: BottomAppBar(
+        height: 10.h,
+        // padding: EdgeInsets.zero,
+
+        child: TabBar(
+          labelPadding: EdgeInsetsDirectional.zero,
+          controller: _tabController,
+          tabs: const [
+            Tab(
+              icon: Icon(Icons.home),
+              text: 'Ana Sayfa',
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton.icon(
-                  onPressed: () async {
-                    await FirestoreService.instance.uploadExam(LessonModel(
-                        lessonName: 'fizik',
-                        subtitle: 'isik',
-                        description: 'descriptionn',
-                        videoURL: 'url'));
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Yeni Sinav Ekle')),
+            Tab(
+              icon: Icon(Icons.person),
+              text: 'Profil',
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          settings: const RouteSettings(),
-                          builder: (context) => const AddLessonsView(),
-                        ));
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Yeni Ders Ekle')),
-            )
           ],
         ),
       ),
+      body: TabBarView(controller: _tabController, children: [
+        Padding(
+          padding: EdgeInsets.all(4.w),
+          child: Column(
+            children: [
+              _lastLessons(lastLessons, context),
+              _lastExams(lastExams, context),
+              const Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddLessonsView(),
+                          ));
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text('Yeni Ders Ekle')),
+              )
+            ],
+          ),
+        ),
+        const ProfileView()
+      ]),
     );
   }
 
@@ -147,12 +158,18 @@ class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
 
   AppBar _appbar(BuildContext context) {
     return AppBar(
-      leading: Padding(
-        padding: context.padding.low,
-        child: const CircleAvatar(
-          backgroundImage: NetworkImage('https://picsum.photos/200'),
-        ),
-      ),
+      actions: [
+        IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AuthenticationView(),
+                  ));
+            },
+            icon: const Icon(Icons.logout))
+      ],
       title: const Text(
         'Ahmet Canay',
         style: TextStyle(color: Colors.black),
@@ -175,5 +192,30 @@ class _HomeViewState extends ConsumerState<HomeTutorView> with HomeViewModel {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
         ]);
+  }
+}
+
+class BackgroundImageFb1 extends StatelessWidget {
+  final Widget child;
+  final String imageUrl;
+  const BackgroundImageFb1(
+      {required this.child, required this.imageUrl, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // Place as the child widget of a scaffold
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(
+              "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/backgrounds%2Fgradienta-26WixHTutxc-unsplash.jpg?alt=media&token=4b3d4985-d8fb-40e9-928f-cf7b4502a858"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: child,
+    );
   }
 }

@@ -12,10 +12,11 @@ class AddExamViewModel extends ChangeNotifier {
   final TextEditingController optionBController = TextEditingController();
   final TextEditingController optionCController = TextEditingController();
   final TextEditingController optionDController = TextEditingController();
-  final TextEditingController passGradeController = TextEditingController();
+  final TextEditingController passGradeController =
+      TextEditingController(text: '0');
   String? selectedOption;
   int currentQuestion = 0;
-  
+
   final int amountOfQuestion = 9;
 
   List<QuestionModel> questionModels =
@@ -60,7 +61,7 @@ class AddExamViewModel extends ChangeNotifier {
         ],
         correctAnswer: selectedOption!,
       );
-
+      inspect(questionModels);
       currentQuestion++;
 
       if (questionModels[currentQuestion].question == null) {
@@ -69,7 +70,7 @@ class AddExamViewModel extends ChangeNotifier {
         optionBController.text = '';
         optionCController.text = '';
         optionDController.text = '';
-        passGradeController.text = '';
+        passGradeController.text = '0';
         selectedOption = null;
       } else {
         questionController.text = questionModels[currentQuestion].question!;

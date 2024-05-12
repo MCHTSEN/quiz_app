@@ -9,6 +9,7 @@ import 'package:kartal/kartal.dart';
 import 'package:quiz_app/features/add_lessons/add_exam/add_exam_view.dart';
 import 'package:quiz_app/features/add_lessons/add_lessons_viewmodel.dart';
 import 'package:quiz_app/features/home/view/home_view.dart';
+import 'package:quiz_app/features/home_tutor/home_tutor_view.dart';
 import 'package:quiz_app/provs/exam_provider.dart';
 import 'package:quiz_app/services/firestore_service.dart';
 import 'package:quiz_app/utils/enums/custom_borders.dart';
@@ -110,21 +111,21 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
                     onPressed: isExamAdded
                         ? () async {
                             if (_formKey.currentState!.validate()) {
-                              // final List<QuestionModel> questionList =
-                              //     ref.read(examListProvider.notifier).state;
+                              final List<QuestionModel> questionList =
+                                  ref.read(examListProvider.notifier).state;
 
-                              // inspect(questionList);
+                              inspect(questionList);
 
-                              // final LessonModel examModel = LessonModel(
-                              //     lessonName: _selectedOption,
-                              //     subtitle: _selectedSubtitle,
-                              //     description:
-                              //         _lessonDescriptionController.text,
-                              //     videoURL: _videoURLController.text,
-                              //     questionModel: questionList);
+                              final LessonModel examModel = LessonModel(
+                                  lessonName: _selectedOption,
+                                  subtitle: _selectedSubtitle,
+                                  description:
+                                      _lessonDescriptionController.text,
+                                  videoURL: _videoURLController.text,
+                                  questionModel: questionList);
 
-                              // await FirestoreService.instance
-                              //     .uploadExam(examModel);
+                              await FirestoreService.instance
+                                  .uploadExam(examModel);
 
                               showDialog(
                                 context: context,
@@ -145,11 +146,11 @@ class _AddLessonsViewState extends ConsumerState<AddLessonsView> {
                                     actions: [
                                       TextButton(
                                           onPressed: () {
-                                            Navigator.push(
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const HomeView(),
+                                                      const HomeTutorView(),
                                                 ));
                                           },
                                           child: const Text('Anasayfaya Dön'))

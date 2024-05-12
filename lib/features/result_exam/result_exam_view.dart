@@ -66,7 +66,7 @@ class _ResultExamViewState extends ConsumerState<ResultExamView> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomeTutorView(),
+                      builder: (context) => const HomeView(),
                     ));
               },
               style: ButtonStyle(

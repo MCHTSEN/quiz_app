@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz_app/features/home/view/home_view.dart';
 import 'package:quiz_app/features/home_tutor/home_tutor_view.dart';
 import 'package:quiz_app/features/lesson/lesson_view.dart';
+import 'package:quiz_app/features/register/register_view.dart';
 
 class AuthenticationView extends ConsumerStatefulWidget {
   const AuthenticationView({super.key});
@@ -19,6 +20,7 @@ class AuthenticationView extends ConsumerStatefulWidget {
 class _AuthenticationViewState extends ConsumerState<AuthenticationView> {
   @override
   Widget build(BuildContext context) {
+    print(FirebaseAuth.instance.currentUser?.uid ?? 'dsadas');
     return Scaffold(
         body: firebase.FirebaseUIActions(actions: [
       AuthStateChangeAction<SignedIn>(
@@ -26,6 +28,7 @@ class _AuthenticationViewState extends ConsumerState<AuthenticationView> {
           if (state.user != null) {
             final bool isAdmin =
                 (state.user!.uid == 'ke4vXB5HtfNejmIeVssGPC2pFDl1');
+
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   isAdmin ? const HomeTutorView() : const HomeView(),
