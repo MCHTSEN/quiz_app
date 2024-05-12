@@ -145,8 +145,7 @@ class _HomeViewState extends ConsumerState<HomeTutorView>
                                               lessons[index].lessonName ?? '',
                                               lessons[index].subtitle ?? '');
                                       setState(() {
-                                        _viewmodel.lessonsFuture = _viewmodel
-                                            .getLessons(LessonNames.Matematik);
+                                        lessons.removeAt(index);
                                       });
                                     },
                                     title: lessons[index].subtitle,
