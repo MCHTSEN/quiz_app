@@ -11,6 +11,7 @@ import 'package:kartal/kartal.dart';
 import 'package:quiz_app/features/profile/list_exam_results.dart';
 import 'package:quiz_app/features/register/register_view.dart';
 import 'package:quiz_app/services/firestore_service.dart';
+import 'package:quiz_app/utils/constants/admins.dart';
 import 'package:quiz_app/utils/enums/lesson_names.dart';
 import 'package:quiz_app/utils/models/user_info_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -24,6 +25,8 @@ class ProfileView extends ConsumerStatefulWidget {
 
 class _ProfilePageState extends ConsumerState<ProfileView> {
   UserInfoModel? model;
+  final bool isAdmin = Admins().isAdmin;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -42,7 +45,7 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Bir hata oluştu: ${snapshot.error}'));
           } else {
-            return model == null
+            return (model == null && !isAdmin)
                 ? const RegisterView()
                 : Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -50,6 +53,7 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        if(!isAdmin)
                         Container(
                             margin: const EdgeInsets.all(8),
                             height: 5.h,
@@ -58,7 +62,6 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
                               scrollDirection: Axis.horizontal,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12.0),
@@ -72,18 +75,22 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
                                       ),
                                     ],
                                   ),
-                                  child: Text(
-                                    model!.name,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        model!.name,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Gap(2.w),
                                 Container(
-                                  padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12.0),
@@ -97,17 +104,21 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
                                       ),
                                     ],
                                   ),
-                                  child: Text(
-                                    model!.field,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        model!.field,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Gap(2.w),
                                 Container(
-                                  padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12.0),
@@ -121,11 +132,14 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
                                       ),
                                     ],
                                   ),
-                                  child: Text(
-                                    "${model!.grade}. Sınıf",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "${model!.grade}. Sınıf",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -159,13 +173,11 @@ class _ProfilePageState extends ConsumerState<ProfileView> {
         return user;
       } else {
         model = null;
-        print('object');
         return null;
       }
     } catch (e) {
       print(e);
       rethrow;
-      return null;
     }
   }
 

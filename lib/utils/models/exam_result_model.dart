@@ -2,11 +2,13 @@ class ExamResultModel {
   int score;
   bool isPassed;
   List<String>? answers;
+  String? subtitle;
 
   ExamResultModel({
     required this.score,
     required this.isPassed,
     required this.answers,
+    this.subtitle,
   });
 
   ExamResultModel copyWith({
@@ -18,11 +20,13 @@ class ExamResultModel {
       score: score ?? this.score,
       isPassed: isPassed ?? this.isPassed,
       answers: answers ?? this.answers,
+      subtitle: subtitle ?? subtitle,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'subtitle': subtitle,
       'score': score,
       'isPassed': isPassed,
       'answers': answers,
@@ -33,6 +37,7 @@ class ExamResultModel {
     return ExamResultModel(
       score: json['score'] as int,
       isPassed: json['isPassed'] as bool,
+      subtitle: json['subtitle'] as String? ?? 'Diğer',
       answers: (json['answers'] as List<dynamic>? ?? [])
           .map((e) => e.toString())
           .toList(),

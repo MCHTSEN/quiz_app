@@ -78,6 +78,8 @@ class _TakeLessonViewState extends ConsumerState<TakeLessonView> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TakeExam(
+                                  subtitle:
+                                      widget.lessonModel.subtitle ?? 'Exam',
                                   questions: widget.lessonModel.questionModel!),
                             ));
                       }

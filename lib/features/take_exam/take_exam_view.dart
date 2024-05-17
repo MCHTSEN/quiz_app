@@ -22,8 +22,10 @@ class SelectedAnswersNotifier extends StateNotifier<List<String>> {
 
 class TakeExam extends ConsumerStatefulWidget {
   final List<QuestionModel> questions;
+  final String subtitle;
 
-  const TakeExam({Key? key, required this.questions}) : super(key: key);
+  const TakeExam({required this.subtitle, Key? key, required this.questions})
+      : super(key: key);
 
   @override
   _QuizPageState createState() => _QuizPageState();
@@ -37,7 +39,7 @@ class _QuizPageState extends ConsumerState<TakeExam> {
   Widget build(BuildContext context) {
     final selectedAnswers = ref.watch(selectedAnswersProvider.notifier).state;
     final question = widget.questions[_currentIndex];
-    final optionLetters = ['A', 'B', 'C', 'D'];
+    final optionLetters = ['A', 'B', 'C', 'D', 'E'];
 
     return Scaffold(
       appBar: AppBar(
@@ -58,10 +60,12 @@ class _QuizPageState extends ConsumerState<TakeExam> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  question.question ?? '',
-                  style: const TextStyle(
-                    fontSize: 16,
+                Center(
+                  child: Image.network(
+                    question.question ?? '',
+                    height: 30.h,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Center(child: Text('Soru Bulunamadı')),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -183,8 +187,10 @@ class _QuizPageState extends ConsumerState<TakeExam> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ResultExamView(
+                                        subtitle: widget.subtitle,
                                         selectedAnswers: selectedAnswers,
-                                        passGrade: question.passGrade ?? 50,
+                                        passGrade:
+                                            widget.questions[0].passGrade ?? 50,
                                         score: examScore,
                                       ),
                                     ));
@@ -204,8 +210,7 @@ class _QuizPageState extends ConsumerState<TakeExam> {
                                 selectedButtonIndex = -1;
 
                                 setState(() {
-                                  if (_currentIndex <
-                                      widget.questions.length) {
+                                  if (_currentIndex < widget.questions.length) {
                                     _currentIndex++;
                                     final letterToIndexResult = letterToIndex(
                                         selectedAnswers[_currentIndex]);
@@ -276,6 +281,7 @@ class _QuizPageState extends ConsumerState<TakeExam> {
       1 => 'B',
       2 => 'C',
       3 => 'D',
+      4 => 'E',
       int() => 'FALSE'
     };
   }
@@ -286,6 +292,7 @@ class _QuizPageState extends ConsumerState<TakeExam> {
       'B' => 1,
       'C' => 2,
       'D' => 3,
+      'E' => 4,
       String() => -1,
     };
   }

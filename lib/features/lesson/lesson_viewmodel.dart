@@ -45,8 +45,8 @@ class LessonViewModel {
   }
 
   LessonModel lesson1 = LessonModel(
-    lessonName: LessonNames.Matematik.name,
-    subtitle: '5-Zosa',
+    lessonName: LessonNames.Fizik.name,
+    subtitle: 'Enerji',
     videoURL:
         'https://www.youtube.com/watch?v=Jja7555eRFo&list=WL&index=1&t=15s',
     description: 'Matematikte kesirlerin temel kavramlarını içeren bir ders.',
@@ -55,7 +55,7 @@ class LessonViewModel {
         question: '3/4 kesrinin ondalık karşılığı nedir?',
         answers: ['0.75', '1.25', '0.5', '0.33'],
         correctAnswer: 'A',
-        passGrade: 10,
+        passGrade: 50,
       ),
       QuestionModel(
         question: '5/8 kesrinin ondalık karşılığı nedir?',

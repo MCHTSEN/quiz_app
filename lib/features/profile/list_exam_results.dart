@@ -60,7 +60,8 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
                       itemBuilder: (context, index) {
                         final result = snapshot.data![index];
                         return ListTile(
-                          title: Text('Sınav ${index + 1}'),
+                          title:
+                              Text('Sınav ${index + 1} : ${result.subtitle}'),
                           subtitle: Text(
                             'Not: ${result.score}',
                             style: TextStyle(
@@ -100,7 +101,8 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
                       itemBuilder: (context, index) {
                         final result = snapshot.data![index];
                         return ListTile(
-                          title: Text('Sınav ${index + 1}'),
+                          title:
+                              Text('Sınav ${index + 1} : ${result.subtitle}'),
                           subtitle: Text(
                             'Not: ${result.score}',
                             style: TextStyle(

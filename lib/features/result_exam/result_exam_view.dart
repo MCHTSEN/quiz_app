@@ -11,9 +11,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class ResultExamView extends ConsumerStatefulWidget {
   final int score;
   final int passGrade;
+  final String subtitle;
   final List<String> selectedAnswers;
 
   const ResultExamView({
+    required this.subtitle,
     required this.score,
     required this.passGrade,
     super.key,
@@ -60,6 +62,7 @@ class _ResultExamViewState extends ConsumerState<ResultExamView> {
                 FirestoneService.instance.saveExamResult(
                     ref,
                     ExamResultModel(
+                        subtitle: widget.subtitle,
                         score: widget.score,
                         isPassed: isPassed,
                         answers: widget.selectedAnswers));
