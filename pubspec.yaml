@@ -20,6 +20,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   gap: ^3.0.1
   google_fonts: 6.1.0
+  image_picker: ^1.1.1
   kartal: ^3.5.0
   mockito: ^5.4.4
   responsive_sizer: ^3.3.0+1
@@ -39,3 +40,7 @@ flutter:
   assets:
     - assets/images/
     - .env
+  fonts:
+    - family: SocialIcons
+      fonts:
+        - asset: packages/firebase_ui_auth/fonts/SocialIcons.ttf

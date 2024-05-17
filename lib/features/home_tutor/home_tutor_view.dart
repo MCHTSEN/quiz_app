@@ -253,7 +253,7 @@ class _HomeViewState extends ConsumerState<HomeTutorView>
             icon: const Icon(Icons.logout))
       ],
       title: const Text(
-        'Ahmet Canay',
+        'Anasayfa',
         style: TextStyle(color: Colors.black),
       ),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,

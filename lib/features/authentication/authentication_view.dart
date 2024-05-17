@@ -8,6 +8,7 @@ import 'package:quiz_app/features/home/view/home_view.dart';
 import 'package:quiz_app/features/home_tutor/home_tutor_view.dart';
 import 'package:quiz_app/features/lesson/lesson_view.dart';
 import 'package:quiz_app/features/register/register_view.dart';
+import 'package:quiz_app/utils/constants/admins.dart';
 
 class AuthenticationView extends ConsumerStatefulWidget {
   const AuthenticationView({super.key});
@@ -22,24 +23,27 @@ class _AuthenticationViewState extends ConsumerState<AuthenticationView> {
   Widget build(BuildContext context) {
     print(FirebaseAuth.instance.currentUser?.uid ?? 'dsadas');
     return Scaffold(
-        body: firebase.FirebaseUIActions(actions: [
-      AuthStateChangeAction<SignedIn>(
-        (context, state) {
-          if (state.user != null) {
-            final bool isAdmin =
-                (state.user!.uid == 'ke4vXB5HtfNejmIeVssGPC2pFDl1');
+        body: firebase.FirebaseUIActions(
+            actions: [
+          AuthStateChangeAction<SignedIn>(
+            (context, state) {
+              if (state.user != null) {
+                final bool isAdmin = Admins().isAdmin;
 
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  isAdmin ? const HomeTutorView() : const HomeView(),
-            ));
-          }
-        },
-      ),
-      AuthStateChangeAction<SigningUp>((context, state) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomeView()));
-      }),
-    ], child: const firebase.SignInScreen()));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      isAdmin ? const HomeTutorView() : const HomeView(),
+                ));
+              }
+            },
+          ),
+          AuthStateChangeAction<SigningUp>((context, state) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeView()));
+          }),
+        ],
+            child: firebase.SignInScreen(
+              providers: [firebase.EmailAuthProvider()],
+            )));
   }
 }
