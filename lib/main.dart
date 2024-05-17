@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,14 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 Future<void> main() async {
   await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
+  // await auth.FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseUIAuth.configureProviders([
     EmailAuthProvider(),
   ]);
+  
   runApp(const ProviderScope(child: MainApp()));
 }
 
@@ -38,11 +41,6 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = View.of(context).platformDispatcher.platformBrightness;
-
-    // Retrieves the default theme for the platform
-    //TextTheme textTheme = Theme.of(context).textTheme;
-
-    // Use with Google Fonts package to use downloadable fonts
     TextTheme textTheme = createTextTheme(context, "Ubuntu", "Ubuntu");
 
     MaterialTheme theme = MaterialTheme(textTheme);
